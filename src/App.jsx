@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from 'axios';
 import './style-weather-1204.css';
-import { IoIosUmbrella } from "react-icons/io";
+import ShowWeather from "./component/ShowWeather";
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
       const data = await axios.get('https://yesexia1206.github.io/myProj_Weather/json/F-C0032-001.json');
       //console.log(data);
       const { location } = data.data.cwaopendata.dataset;
-      console.log(location);
+      //console.log(location);
       setWeatherList(location);
     })()
   }, [])
@@ -34,58 +34,7 @@ function App() {
               return (
                 <div className="item" key={city.locationName}>
                   <h3>{city.locationName}</h3>
-                  <div className="content">
-                    {
-                      city.weatherElement[0].time.map((time, index) => {
-                        return (
-                          <div className="item2" key={index}>
-                            {/* <p>4日</p> */}
-                            <p>
-                              {
-                                new Date(time.startTime).toLocaleString(undefined, {
-                                  day: 'numeric'
-                                })
-                              }
-                            </p>
-                            {/* <p>上午6:00<br />~<br />下午6:00</p> */}
-                            <p>
-                              {
-                                new Date(time.startTime).toLocaleString(undefined, {
-                                  hour: 'numeric',
-                                  minute: 'numeric'
-                                })
-                              }
-                            </p>
-                            <br />
-                            ~
-                            <br />
-                            <p>
-                              {
-                                new Date(time.endTime).toLocaleString(undefined, {
-                                  hour: 'numeric',
-                                  minute: 'numeric'
-                                })
-                              }
-                            </p>
-                            {/* <p><img src="images/weatherIcon/陰短暫雨.svg" alt="" /></p> */}
-                            <p>
-                              <img src={`images/weatherIcon/${time.parameter.parameterName}.svg`} alt="" />
-                            </p>
-                            {/* <p>陰短暫雨</p> */}
-                            <p>{time.parameter.parameterName}</p>
-                            {/* <p><IoIosUmbrella />30%</p> */}
-                            <p><IoIosUmbrella />
-                            {
-                              city.weatherElement[4].time[index].parameter.parameterName
-                            }
-                            %
-                            </p>
-                          </div>
-                        )
-                      })
-                    }
-
-                  </div>
+                  <ShowWeather city={city} />
                 </div>
               )
             })
